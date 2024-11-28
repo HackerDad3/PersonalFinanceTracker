@@ -45,11 +45,51 @@ def add_recurring_transaction():
     print(f"Transaction '{name}' added successfully!")
 
 def view_yearly_schedule():
-    """Display all recurring transactions for the year."""
+    """Display all recurring transactions for a specific year."""
     print("\nYearly Schedule")
     if not recurring_transactions:
         print("No transactions found.")
         return
+
+    # Get the year from the user
+    year = input("Enter the year to view (e.g., 2024): ")
+    try:
+        year = int(year)
+    except ValueError:
+        print("Invalid year. Please enter a 4-digit number.")
+        return
+
+    print(f"\nTransactions for the year {year}:")
+    found = False
+
+    # Loop through the transactions and display those matching the year
+    for transaction in recurring_transactions:
+        transaction_date = datetime.strptime(transaction['start_date'], "%d-%m-%Y")
+        frequency = transaction['frequency'].lower()
+
+        # Check if the transaction falls within the specified year
+        while transaction_date.year <= year:
+            if transaction_date.year == year:
+                print(f"\n  Name: {transaction['name']}")
+                print(f"  Amount: ${transaction['amount']:.2f}")
+                print(f"  Category: {transaction['category']}")
+                print(f"  Frequency: {transaction['frequency']}")
+                print(f"  Scheduled Date: {transaction_date.strftime('%d-%m-%Y')}")
+                print(f"  Account: {transaction['account']}")
+                found = True
+
+            # Move to the next scheduled date
+            if frequency == "weekly":
+                transaction_date += timedelta(weeks=1)
+            elif frequency == "fortnightly":
+                transaction_date += timedelta(weeks=2)
+            elif frequency == "monthly":
+                transaction_date += timedelta(days=30)  # Approximation
+            else:
+                break  # Once-off transactions only repeat once
+
+    if not found:
+        print(f"No transactions found for the year {year}.")
     
     # Loop through the transactions and display them.
     for i, transaction in enumerate(recurring_transactions, start=1):
