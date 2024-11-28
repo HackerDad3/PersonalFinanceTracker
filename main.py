@@ -102,7 +102,87 @@ def view_monthly_overview():
         print("No transactions found for this month.")
 
 def view_weekly_breakdown():
-    print("Feature: View Weekly Breakdown (coming soon)")
+    """Display a detailed breakdown of transactions for a specific week."""
+    print("\nWeekly Breakdown")
+    if not recurring_transactions:
+        print("No transactions found.")
+        return
+
+    # Get the start date of the week from the user
+    start_date_str = input("Enter the start date of the week (YYYY-MM-DD): ")
+    try:
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+    except ValueError:
+        print("Invalid date format. Please use YYYY-MM-DD.")
+        return
+
+    # Calculate the end date of the week
+    end_date = start_date + timedelta(days=6)
+
+    print(f"\nTransactions for the week {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}:")
+    found = False
+
+    # Initialize totals
+    total_income = 0
+    total_expenses = 0
+    account_balances = {}
+
+    # Filter and display transactions
+    for transaction in recurring_transactions:
+        transaction_date = datetime.strptime(transaction['start_date'], "%Y-%m-%d")
+        frequency = transaction['frequency'].lower()
+
+        # Check if the transaction falls within the week
+        while transaction_date <= end_date:
+            if start_date <= transaction_date <= end_date:
+                amount = transaction['amount']
+                account = transaction['account']
+                category = transaction['category']
+
+                # Income vs Expense logic (can adjust based on category or type)
+                if category.lower() in ["income", "salary", "paycheck"]:
+                    total_income += amount
+                else:
+                    total_expenses += amount
+
+                # Track balances by account
+                if account not in account_balances:
+                    account_balances[account] = 0
+                account_balances[account] += amount if category.lower() in ["income", "salary"] else -amount
+
+                # Display transaction details
+                print(f"\n  Name: {transaction['name']}")
+                print(f"  Amount: ${amount:.2f}")
+                print(f"  Category: {category}")
+                print(f"  Scheduled Date: {transaction_date.strftime('%Y-%m-%d')}")
+                print(f"  Account: {account}")
+                found = True
+
+            # Move to the next scheduled date
+            if frequency == "weekly":
+                transaction_date += timedelta(weeks=1)
+            elif frequency == "fortnightly":
+                transaction_date += timedelta(weeks=2)
+            elif frequency == "monthly":
+                transaction_date += timedelta(days=30)  # Approximation
+            else:
+                break  # Once-off transactions only repeat once
+
+    if not found:
+        print("No transactions found for this week.")
+    else:
+        # Display weekly totals
+        print("\nWeekly Summary:")
+        print(f"  Total Income: ${total_income:.2f}")
+        print(f"  Total Expenses: ${total_expenses:.2f}")
+        print(f"  Net Balance: ${total_income - total_expenses:.2f}")
+
+        # Display account balances and highlight potential shortfalls
+        print("\nAccount Balances:")
+        for account, balance in account_balances.items():
+            status = "OK" if balance >= 0 else "INSUFFICIENT FUNDS"
+            print(f"  {account}: ${balance:.2f} ({status})")
+
 
 def manage_special_budgets():
     print("Feature: Manage Special Budgets (coming soon)")
