@@ -6,6 +6,7 @@ __version__ = "0.1.0"
 recurring_transactions = []
 
 def add_recurring_transaction():
+    """Collect details for a recurring transaction and add it to the list"""
     print("\nAdd Recurring Transaction")
 
     # Collect transaction details
@@ -13,7 +14,7 @@ def add_recurring_transaction():
     amount = float(input("Enter the amount (e.g. 1200): "))
     category = input("Enter the category (e.g. Housing, Food): ")
     frequency = input("Enter the frequency (e.g. weekly, monthly, fortnightly): ")
-    start_date = input("Enter the start date (dd-mm-yyyy): ")
+    start_date = input("Enter the start date (yyyy-mm-dd): ")
     account = input("Enter the account (e.g. Main Account, Savings Account): ")
 
     # Create a dict for the transactions
