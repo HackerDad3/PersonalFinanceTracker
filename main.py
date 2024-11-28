@@ -27,7 +27,7 @@ def add_recurring_transaction():
             break
         except ValueError:
             print("Invalid date format. Please use DD-MM-YYYY")
-            
+
     account = input("Enter the account (e.g. Main Account, Savings Account): ")
 
     # Create a dict for the transactions
@@ -36,7 +36,7 @@ def add_recurring_transaction():
         "amount": amount,
         "category": category,
         "frequency": frequency,
-        "start_date": start_date,
+        "start_date": start_date.strftime("%d-%m-%Y"),
         "account": account
     }
 
@@ -84,7 +84,7 @@ def view_monthly_overview():
 
     # Filter and display transactions
     for transaction in recurring_transactions:
-        transaction_date = datetime.strptime(transaction['start_date'], "%Y-%m-%d")
+        transaction_date = datetime.strptime(transaction['start_date'], "%d-%m-%Y")
         frequency = transaction['frequency'].lower()
 
         # Check if the transaction falls within the month
@@ -94,7 +94,7 @@ def view_monthly_overview():
                 print(f"  Amount: ${transaction['amount']:.2f}")
                 print(f"  Category: {transaction['category']}")
                 print(f"  Frequency: {transaction['frequency']}")
-                print(f"  Scheduled Date: {transaction_date.strftime('%Y-%m-%d')}")
+                print(f"  Scheduled Date: {transaction_date.strftime('%d-%m-%Y')}")
                 print(f"  Account: {transaction['account']}")
                 found = True
 
@@ -119,17 +119,17 @@ def view_weekly_breakdown():
         return
 
     # Get the start date of the week from the user
-    start_date_str = input("Enter the start date of the week (YYYY-MM-DD): ")
+    start_date_str = input("Enter the start date of the week (DD-MM-YYYY): ")
     try:
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+        start_date = datetime.strptime(start_date_str, "%d-%m-%Y")
     except ValueError:
-        print("Invalid date format. Please use YYYY-MM-DD.")
+        print("Invalid date format. Please use DD-MM-YYYY.")
         return
 
     # Calculate the end date of the week
     end_date = start_date + timedelta(days=6)
 
-    print(f"\nTransactions for the week {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}:")
+    print(f"\nTransactions for the week {start_date.strftime('%d-%m-%Y')} to {end_date.strftime('%d-%m-%Y')}:")
     found = False
 
     # Initialize totals
@@ -139,7 +139,7 @@ def view_weekly_breakdown():
 
     # Filter and display transactions
     for transaction in recurring_transactions:
-        transaction_date = datetime.strptime(transaction['start_date'], "%Y-%m-%d")
+        transaction_date = datetime.strptime(transaction['start_date'], "%d-%m-%Y")
         frequency = transaction['frequency'].lower()
 
         # Check if the transaction falls within the week
@@ -164,7 +164,7 @@ def view_weekly_breakdown():
                 print(f"\n  Name: {transaction['name']}")
                 print(f"  Amount: ${amount:.2f}")
                 print(f"  Category: {category}")
-                print(f"  Scheduled Date: {transaction_date.strftime('%Y-%m-%d')}")
+                print(f"  Scheduled Date: {transaction_date.strftime('%d-%m-%Y')}")
                 print(f"  Account: {account}")
                 found = True
 
