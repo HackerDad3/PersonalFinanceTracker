@@ -17,7 +17,17 @@ def add_recurring_transaction():
     amount = float(input("Enter the amount (e.g. 1200): "))
     category = input("Enter the category (e.g. Housing, Food): ")
     frequency = input("Enter the frequency (e.g. weekly, monthly, fortnightly): ")
-    start_date = input("Enter the start date (yyyy-mm-dd): ")
+    # start_date = input("Enter the start date (yyyy-mm-dd): ")
+
+    # Validate date
+    while True:
+        start_date_str = input("Enter the start date (dd-mm-yyyy): ")
+        try:
+            start_date = datetime.strptime(start_date_str, "%d-%m-%Y")
+            break
+        except ValueError:
+            print("Invalid date format. Please use DD-MM-YYYY")
+            
     account = input("Enter the account (e.g. Main Account, Savings Account): ")
 
     # Create a dict for the transactions
