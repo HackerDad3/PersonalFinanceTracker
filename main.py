@@ -5,8 +5,60 @@ __version__ = "0.3.0"
 # Imports
 from datetime import datetime, timedelta
 
-# Define all the functions first.  There are the current features we want to use.
 recurring_transactions = []
+categories = ["Housing", "Food", "Entertainment", "Transportation", "Income"]
+
+def view_categories():
+    """Display the list of categories."""
+    print("\nCurrent Categories:")
+    for i, category in enumerate(categories, start=1):
+        print(f"{i}. {category}")
+
+def add_category():
+    """Add a new category to the list."""
+    new_category = input("Enter the name of the new category: ").strip()
+    if new_category in categories:
+        print(f"The category '{new_category}' already exists.")
+    else:
+        categories.append(new_category)
+        print(f"Category '{new_category}' added successfully!")
+
+def remove_category():
+    """Remove a category from the list."""
+    view_categories()
+    while True:
+        try:
+            category_index = int(input("Enter the number of the category to remove: ")) - 1
+            if 0 <= category_index < len(categories):
+                removed_category = categories.pop(category_index)
+                print(f"Category '{removed_category}' removed successfully!")
+                break
+            else:
+                print("Invalid choice. Please try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+def manage_categories():
+    """Submenu for category management."""
+    while True:
+        print("\nCategory Management")
+        print("1. View Categories")
+        print("2. Add Category")
+        print("3. Remove Category")
+        print("4. Back to Main Menu")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            view_categories()
+        elif choice == "2":
+            add_category()
+        elif choice == "3":
+            remove_category()
+        elif choice == "4":
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
 def add_recurring_transaction():
     """Collect details for a recurring transaction and add it to the list"""
@@ -15,7 +67,20 @@ def add_recurring_transaction():
     # Collect transaction details
     name = input("Enter the name of the transaction (e.g. Rent): ")
     amount = float(input("Enter the amount (e.g. 1200): "))
-    category = input("Enter the category (e.g. Housing, Food): ")
+    # category = input("Enter the category (e.g. Housing, Food): ")
+
+    # Display categories
+    while True:
+        try:
+            category_index = int(input("Select a category by number: ")) - 1
+            if 0 <= category_index < len(categories):
+                category = categories[category_index]
+                break
+            else:
+                print("Invalid chioce. Please try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
     frequency = input("Enter the frequency (e.g. weekly, monthly, fortnightly): ")
     # start_date = input("Enter the start date (yyyy-mm-dd): ")
 
@@ -42,7 +107,7 @@ def add_recurring_transaction():
 
     # Add the transaction to the list
     recurring_transactions.append(transaction)
-    print(f"Transaction '{name}' added successfully!")
+    print(f"Transaction '{name}' added successfully under category {category}!")
 
 def view_yearly_schedule():
     """Display all recurring transactions for a specific year."""
@@ -248,7 +313,7 @@ def main():
         print("2. View Yearly Schedule")
         print("3. View Monthly Overview")
         print("4. View Weekly Breakdown")
-        print("5. Manage Special Budgets")
+        print("5. Manage Categories")
         print("6. Check Account Projections")
         print("7. Exit")
 
@@ -263,7 +328,7 @@ def main():
         elif choice == "4":
             view_weekly_breakdown()
         elif choice == "5":
-            manage_special_budgets()
+            manage_categories()
         elif choice == "6":
             check_account_projections()
         elif choice == "7":
@@ -271,6 +336,7 @@ def main():
             break
         else:
             print("Invalid choice. Please try again.")
+
 
 # Run the program by calling main
 if __name__ == "__main__":
