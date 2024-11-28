@@ -3,8 +3,32 @@
 __version__ = "0.1.0"
 
 # Define all the functions first.  There are the current features we want to use.
+recurring_transactions = []
+
 def add_recurring_transaction():
-    print("Feature: Add Recurring Transaction (coming soon)")
+    print("\nAdd Recurring Transaction")
+
+    # Collect transaction details
+    name = input("Enter the name of the transaction (e.g. Rent): ")
+    amount = input("Enter the amount (e.g. 1200): ")
+    category = input("Enter the category (e.g. Housing, Food): ")
+    frequency = input("Enter the frequency (e.g. weekly, monthly, fortnightly): ")
+    start_date = input("Enter the start date (dd-mm-yyyy): ")
+    account = input("Enter the account (e.g. Main Account, Savings Account): ")
+
+    # Create a dict for the transactions
+    transaction = {
+        "name": name,
+        "amount": amount,
+        "category": category,
+        "frequency": frequency,
+        "start_date": start_date,
+        "account": account
+    }
+
+    # Add the transaction to the list
+    recurring_transactions.append(transaction)
+    print(f"Transaction '{name}' added successfully!")
 
 def view_yearly_schedule():
     print("Feature: View Yearly Schedule (coming soon)")
