@@ -2,6 +2,9 @@
 
 __version__ = "0.1.0"
 
+# Imports
+from datetime import datetime, timedelta
+
 # Define all the functions first.  There are the current features we want to use.
 recurring_transactions = []
 
@@ -49,7 +52,54 @@ def view_yearly_schedule():
         print(f"  Account: {transaction['account']}")
 
 def view_monthly_overview():
-    print("Feature: View Monthly Overview (coming soon)")
+    """Display transactions for a specific month."""
+    print("\nMonthly Overview")
+    if not recurring_transactions:
+        print("No transactions found.")
+        return
+
+    # Get the desired month and year from the user
+    year = int(input("Enter the year (e.g., 2024): "))
+    month = int(input("Enter the month (1-12): "))
+
+    # Start and end dates for the selected month
+    start_of_month = datetime(year, month, 1)
+    if month == 12:  # Handle December separately
+        end_of_month = datetime(year + 1, 1, 1) - timedelta(days=1)
+    else:
+        end_of_month = datetime(year, month + 1, 1) - timedelta(days=1)
+
+    print(f"\nTransactions for {start_of_month.strftime('%B %Y')}:")
+    found = False
+
+    # Filter and display transactions
+    for transaction in recurring_transactions:
+        transaction_date = datetime.strptime(transaction['start_date'], "%Y-%m-%d")
+        frequency = transaction['frequency'].lower()
+
+        # Check if the transaction falls within the month
+        while transaction_date <= end_of_month:
+            if start_of_month <= transaction_date <= end_of_month:
+                print(f"\n  Name: {transaction['name']}")
+                print(f"  Amount: ${transaction['amount']:.2f}")
+                print(f"  Category: {transaction['category']}")
+                print(f"  Frequency: {transaction['frequency']}")
+                print(f"  Scheduled Date: {transaction_date.strftime('%Y-%m-%d')}")
+                print(f"  Account: {transaction['account']}")
+                found = True
+
+            # Move to the next scheduled date
+            if frequency == "weekly":
+                transaction_date += timedelta(weeks=1)
+            elif frequency == "fortnightly":
+                transaction_date += timedelta(weeks=2)
+            elif frequency == "monthly":
+                transaction_date += timedelta(days=30)  # Approximation
+            else:
+                break  # Once-off transactions only repeat once
+
+    if not found:
+        print("No transactions found for this month.")
 
 def view_weekly_breakdown():
     print("Feature: View Weekly Breakdown (coming soon)")
