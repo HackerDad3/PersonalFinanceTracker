@@ -10,7 +10,7 @@ def add_recurring_transaction():
 
     # Collect transaction details
     name = input("Enter the name of the transaction (e.g. Rent): ")
-    amount = input("Enter the amount (e.g. 1200): ")
+    amount = float(input("Enter the amount (e.g. 1200): "))
     category = input("Enter the category (e.g. Housing, Food): ")
     frequency = input("Enter the frequency (e.g. weekly, monthly, fortnightly): ")
     start_date = input("Enter the start date (dd-mm-yyyy): ")
