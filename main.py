@@ -2,3 +2,57 @@
 
 __version__ = "0.1.0"
 
+# Define all the functions first.  There are the current features we want to use.
+def add_recurring_transaction():
+    print("Feature: Add Recurring Transaction (coming soon)")
+
+def view_yearly_schedule():
+    print("Feature: View Yearly Schedule (coming soon)")
+
+def view_monthly_overview():
+    print("Feature: View Monthly Overview (coming soon)")
+
+def view_weekly_breakdown():
+    print("Feature: View Weekly Breakdown (coming soon)")
+
+def manage_special_budgets():
+    print("Feature: Manage Special Budgets (coming soon)")
+
+def check_account_projections():
+    print("Feature: Check Account Projections (coming soon)")
+
+# Define the main function last
+def main():
+    while True:
+        print("\nWelcome to Personal Finance Tracker!")
+        print("1. Add Recurring Expense/Income")
+        print("2. View Yearly Schedule")
+        print("3. View Monthly Overview")
+        print("4. View Weekly Breakdown")
+        print("5. Manage Special Budgets")
+        print("6. Check Account Projections")
+        print("7. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            add_recurring_transaction()
+        elif choice == "2":
+            view_yearly_schedule()
+        elif choice == "3":
+            view_monthly_overview()
+        elif choice == "4":
+            view_weekly_breakdown()
+        elif choice == "5":
+            manage_special_budgets()
+        elif choice == "6":
+            check_account_projections()
+        elif choice == "7":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+# Run the program by calling main
+if __name__ == "__main__":
+    main()
