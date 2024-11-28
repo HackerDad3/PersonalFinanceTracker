@@ -32,7 +32,21 @@ def add_recurring_transaction():
     print(f"Transaction '{name}' added successfully!")
 
 def view_yearly_schedule():
-    print("Feature: View Yearly Schedule (coming soon)")
+    """Display all recurring transactions for the year."""
+    print("\nYearly Schedule")
+    if not recurring_transactions:
+        print("No transactions found.")
+        return
+    
+    # Loop through the transactions and display them.
+    for i, transaction in enumerate(recurring_transactions, start=1):
+        print(f"\nTransaction {i}:")
+        print(f"  Name: {transaction['name']}")
+        print(f"  Amount: ${transaction['amount']:.2f}")
+        print(f"  Category: {transaction['category']}")
+        print(f"  Frequency: {transaction['frequency']}")
+        print(f"  Start Date: {transaction['start_date']}")
+        print(f"  Account: {transaction['account']}")
 
 def view_monthly_overview():
     print("Feature: View Monthly Overview (coming soon)")
